@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { authApi } from "@/api/auth";
-import { useTranslation } from "./languageStore";
 
 interface User {
     id: string;

@@ -1,30 +1,24 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import { useAuthStore } from "@/stores/authStore";
+import { Outlet } from "react-router-dom";
 import { useTranslation } from "@/stores/languageStore";
-import { Heart, Stethoscope, History, Home } from "lucide-react";
-import { useState } from "react";
 
 /**
  * Dashboard layout for /diagnosis and /history.
  * Header with navigation, language switcher, and logout.
  */
 export function LandingLayout() {
-    const { user, logout } = useAuthStore();
     const { t } = useTranslation();
-    const navigate = useNavigate();
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 
-    const navLinks = [
-        { to: "/login", label: t("nav.login"), icon: Home },
-        { to: "/about", label: t("nav.about"), icon: Stethoscope },
-        { to: "/contact", label: t("nav.contact"), icon: History },
-    ];
+    // const navLinks = [
+    //     { to: "/login", label: t("nav.login"), icon: Home },
+    //     { to: "/about", label: t("nav.about"), icon: Stethoscope },
+    //     { to: "/contact", label: t("nav.contact"), icon: History },
+    // ];
 
-    const handleLogout = () => {
-        logout();
-        navigate("/landing");
-    };
+    // const handleLogout = () => {
+    //     logout();
+    //     navigate("/landing");
+    // };
 
     return (
         <div className="min-h-screen bg-surface-secondary flex flex-col">
