@@ -1,0 +1,254 @@
+{
+    "app": {
+        "name": "NazaCare",
+        "tagline": "Intelligent Medical Assistant",
+        "description": "AI-powered dengue fever risk assessment"
+    },
+    "nav": {
+        "diagnosis": "Diagnosis",
+        "history": "History",
+        "contact": "Contact Us",
+        "about": "About",
+        "logout": "Logout",
+        "home": "Home",
+        "login": "Login",
+        "register": "Register",
+        "signup": "Register"
+    },
+    "auth": {
+        "regSuccess": "Registration successful. Please login to continue.",
+        "regError": "Registration is currently unavailable. Please try again later.",
+        "loginTitle": "Welcome Back",
+        "loginSubtitle": "Sign in to your NazaCare account",
+        "registerTitle": "Create Account",
+        "registerSubtitle": "Join NazaCare for intelligent health assessment",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "Enter your full name",
+        "email": "Email Address",
+        "emailPlaceholder": "you@example.com",
+        "password": "Password",
+        "passwordPlaceholder": "Enter your password",
+        "confirmPassword": "Confirm Password",
+        "confirmPasswordPlaceholder": "Re-enter your password",
+        "rememberMe": "Remember me",
+        "forgotPassword": "Forgot password?",
+        "loginButton": "Sign In",
+        "registerButton": "Create Account",
+        "noAccount": "Don't have an account?",
+        "hasAccount": "Already have an account?",
+        "signUpLink": "Sign up",
+        "signInLink": "Sign in",
+        "languagePreference": "Language Preference",
+        "age": "Age",
+        "agePlaceholder": "Enter your age",
+        "gender": "Gender",
+        "genderMale": "Male",
+        "genderFemale": "Female",
+        "genderOther": "Other",
+        "height": "Height (cm)",
+        "heightPlaceholder": "e.g., 170",
+        "weight": "Weight (kg)",
+        "weightPlaceholder": "e.g., 70",
+        "bloodType": "Blood Type",
+        "healthInfoTitle": "Health Information",
+        "healthInfoSubtitle": "This helps us provide more accurate diagnoses",
+        "passwordStrength": {
+            "weak": "Weak",
+            "fair": "Fair",
+            "good": "Good",
+            "strong": "Strong"
+        },
+        "validation": {
+            "nameRequired": "Full name is required",
+            "nameMin": "Name must be at least 2 characters",
+            "emailRequired": "Email is required",
+            "emailInvalid": "Please enter a valid email",
+            "passwordRequired": "Password is required",
+            "passwordMin": "Password must be at least 8 characters",
+            "confirmRequired": "Please confirm your password",
+            "passwordsMismatch": "Passwords do not match",
+            "ageRequired": "Age is required",
+            "ageRange": "Age must be between 1 and 120",
+            "genderRequired": "Gender is required",
+            "heightRequired": "Height is required",
+            "heightRange": "Height must be between 30 and 300 cm",
+            "weightRequired": "Weight is required",
+            "weightRange": "Weight must be between 1 and 300 kg",
+            "bloodTypeRequired": "Blood type is required"
+        }
+    },
+    "diagnosis": {
+        "title": "Symptom Assessment",
+        "subtitle": "Describe your symptoms for AI-powered dengue risk analysis",
+        "inputLabel": "Describe Your Symptoms",
+        "inputPlaceholder": "e.g., I have high fever and joint pain for 3 days...",
+        "submitButton": "Analyze Symptoms",
+        "analyzing": "Analyzing...",
+        "resultTitle": "Assessment Result",
+        "riskLevel": "Risk Level",
+        "confidence": "Confidence",
+        "recommendation": "Recommendation",
+        "diagnosis": "Diagnosis",
+        "treatment": "Treatment",
+        "newAssessment": "New Assessment",
+        "warning": "⚠️ This is a preliminary assessment only. Please consult a healthcare professional for accurate diagnosis.",
+        "highRiskAlert": "High risk detected! Please seek immediate medical attention.",
+        "lastDengueCheck": "Last Dengue Checkup",
+        "lastMalariaCheck": "Last Malaria Checkup",
+        "checkupPlaceholder": "Select date (optional)",
+        "healthFields": "Health Check History",
+        "healthFieldsHint": "Providing your last checkup dates helps improve analysis accuracy",
+        "checkResult": "Check Result",
+        "checkResultPositive": "Positive (+)",
+        "checkResultNegative": "Negative (−)",
+        "checkResultUnknown": "Unknown",
+        "platelets": "Blood Platelets (×10³/µL)",
+        "plateletsPlaceholder": "e.g. 150 (normal: 150–400)",
+        "wbc": "White Blood Cells (×10³/µL)",
+        "wbcPlaceholder": "e.g. 6.5 (normal: 4–11)",
+        "hematocrit": "Hematocrit (%)",
+        "hematocritPlaceholder": "e.g. 42 (normal: 37–52)",
+        "checkNotes": "Doctor Notes / Findings",
+        "checkNotesPlaceholder": "Any additional notes from the checkup...",
+        "checkDetails": "Checkup Details",
+        "narrativeTitle": "AI Assessment Summary",
+        "extraDetails": "Additional Details (Optional)",
+        "extraDetailsPlaceholder": "Provide any extra context, e.g. duration, travel history...",
+        "dengueSymptoms": "Dengue Symptoms",
+        "malariaSymptoms": "Malaria Symptoms",
+        "selectSymptoms": "Select your symptoms",
+        "dengueSymptomsList": {
+            "high_fever": "High Fever",
+            "severe_headache": "Severe Headache",
+            "retro_orbital_pain": "Eye / Retro-Orbital Pain",
+            "joint_pain": "Joint Pain",
+            "muscle_pain": "Muscle Pain / Body Aches",
+            "rash": "Skin Rash / Red Spots",
+            "bleeding": "Bleeding / Bruising",
+            "nausea": "Nausea",
+            "vomiting": "Vomiting"
+        },
+        "malariaSymptomsList": {
+            "high_fever": "High Fever",
+            "chills": "Chills / Shivering",
+            "sweating": "Excessive Sweating",
+            "headache": "Headache",
+            "nausea": "Nausea",
+            "vomiting": "Vomiting",
+            "muscle_pain": "Muscle Pain"
+        },
+        "risk": {
+            "low": "Low",
+            "moderate": "Moderate",
+            "moderate-high": "Moderate-High",
+            "high": "High",
+            "unknown": "Unknown"
+        }
+    },
+    "history": {
+        "title": "Diagnosis History",
+        "subtitle": "View your past assessments and trends",
+        "noHistory": "No diagnosis history yet. Start with a new assessment.",
+        "date": "Date",
+        "riskLevel": "Risk Level",
+        "confidence": "Confidence",
+        "symptoms": "Symptoms",
+        "viewDetails": "View Details",
+        "filterAll": "All",
+        "filterLow": "Low",
+        "filterModerate": "Moderate",
+        "filterHigh": "High",
+        "sortNewest": "Newest First",
+        "sortOldest": "Oldest First",
+        "chartRiskTrend": "Risk Trend",
+        "chartConfidenceTrend": "Confidence Trend",
+        "detailsTitle": "Diagnosis Details",
+        "close": "Close",
+        "goToDiagnosis": "New Assessment",
+        "narrativeTitle": "AI Summary"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Something went wrong",
+        "retry": "Retry",
+        "cancel": "Cancel",
+        "save": "Save",
+        "back": "Back",
+        "next": "Next",
+        "language": "Language",
+        "english": "English",
+        "arabic": "العربية"
+    },
+    "landing": {
+        "hero": {
+            "title": "Protect Yourself and Your Family from Dengue",
+            "subtitle": "Advanced AI-powered assessment and comprehensive awareness guide.",
+            "cta": "Get Started",
+            "cta2": "Start Diagnosis"
+        },
+        "about": {
+            "title": "What is Dengue Fever?",
+            "description": "Dengue is a viral infection transmitted to humans through the bite of infected mosquitoes. The primary vectors that transmit the disease are Aedes aegypti mosquitoes."
+        },
+        "types": {
+            "title": "Types of Dengue",
+            "list": [
+                {
+                    "name": "Dengue Fever (Mild)",
+                    "desc": "Flu-like symptoms, high fever, muscle/joint pain."
+                },
+                {
+                    "name": "Dengue Hemorrhagic Fever",
+                    "desc": "Severe form with bleeding, low platelets, plasma leakage."
+                },
+                {
+                    "name": "Dengue Shock Syndrome",
+                    "desc": "Critical phase with dangerously low blood pressure."
+                }
+            ]
+        },
+        "spread": {
+            "title": "How it Spreads",
+            "items": [
+                {
+                    "title": "Mosquito Bites",
+                    "desc": "Transmitted by female Aedes mosquitoes."
+                },
+                {
+                    "title": "Stagnant Water",
+                    "desc": "Breeding ground for mosquitoes."
+                },
+                {
+                    "title": "Poor Environmental Hygiene",
+                    "desc": "Poor environmental hygiene leads to the proliferation of mosquitoes."
+                }
+            ]
+        },
+        "protection": {
+            "title": "Prevention & Protection",
+            "items": [
+                "Use Insect Repellent",
+                "Wear Long Sleeves",
+                "Eliminate Standing Water",
+                "Use Mosquito Nets"
+            ]
+        },
+        "nazaCare": {
+            "title": "How NazaCare Helps",
+            "description": "Our AI-driven system analyzes your symptoms to assess the risk of Dengue infection, providing you with immediate guidance and recommendations."
+        },
+        "stats": {
+            "title": "Dengue Global Impact",
+            "description": "Dengue cases have increased aggressively in recent years. Track and prevent the spread with our intelligent tools."
+        },
+        "doctor": {
+            "title": "Consult Our Specialists",
+            "description": "Get professional medical advice from top doctors quickly and securely.",
+            "button": "Book Doctor"
+        },
+        "cta": {
+            "title": "Ready to check your health?",
+            "button": "Register Now"
+        }
+    }
+}

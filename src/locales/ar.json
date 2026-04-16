@@ -1,0 +1,256 @@
+{
+    "app": {
+        "name": "نازا كير",
+        "tagline": "المساعد الطبي الذكي",
+        "description": "تقييم مخاطر حمى الضنك بالذكاء الاصطناعي"
+    },
+    "nav": {
+        "diagnosis": "التشخيص",
+        "history": "السجل",
+        "contact": "تواصل معنا",
+        "about": "من نحن",
+        "home": "الرئيسية",
+        "logout": "تسجيل الخروج",
+        "login": "تسجيل الدخول",
+        "register": "إنشاء حساب",
+        "signup": "تسجيل"
+    },
+    "auth": {
+        "regSuccess": "تم التسجيل بنجاح. يرجى تسجيل الدخول للمتابعة.",
+        "regError": "التسجيل غير متاح حاليًا. يرجى المحاولة مرة أخرى لاحقًا.",
+        "loginTitle": "مرحبًا بعودتك",
+        "loginSubtitle": "سجّل الدخول إلى حسابك في نازا كير",
+        "registerTitle": "إنشاء حساب",
+        "registerSubtitle": "انضم إلى نازا كير للتقييم الصحي الذكي",
+        "fullName": "الاسم الكامل",
+        "fullNamePlaceholder": "أدخل اسمك الكامل",
+        "email": "البريد الإلكتروني",
+        "emailPlaceholder": "you@example.com",
+        "password": "كلمة المرور",
+        "passwordPlaceholder": "أدخل كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور",
+        "confirmPasswordPlaceholder": "أعد إدخال كلمة المرور",
+        "rememberMe": "تذكرني",
+        "forgotPassword": "نسيت كلمة المرور؟",
+        "loginButton": "تسجيل الدخول",
+        "registerButton": "إنشاء حساب",
+        "noAccount": "ليس لديك حساب؟",
+        "hasAccount": "لديك حساب بالفعل؟",
+        "signUpLink": "سجّل الآن",
+        "signInLink": "سجّل الدخول",
+        "languagePreference": "تفضيل اللغة",
+        "age": "العمر",
+        "agePlaceholder": "أدخل عمرك",
+        "gender": "الجنس",
+        "genderMale": "ذكر",
+        "genderFemale": "أنثى",
+        "genderOther": "آخر",
+        "height": "الطول (سم)",
+        "heightPlaceholder": "مثال: 170",
+        "weight": "الوزن (كغ)",
+        "weightPlaceholder": "مثال: 70",
+        "bloodType": "فصيلة الدم",
+        "healthInfoTitle": "المعلومات الصحية",
+        "healthInfoSubtitle": "هذا يساعدنا في تقديم تشخيصات أكثر دقة",
+        "passwordStrength": {
+            "weak": "ضعيفة",
+            "fair": "مقبولة",
+            "good": "جيدة",
+            "strong": "قوية"
+        },
+        "validation": {
+            "nameRequired": "الاسم الكامل مطلوب",
+            "nameMin": "يجب أن يكون الاسم حرفين على الأقل",
+            "emailRequired": "البريد الإلكتروني مطلوب",
+            "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+            "passwordRequired": "كلمة المرور مطلوبة",
+            "passwordMin": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+            "confirmRequired": "يرجى تأكيد كلمة المرور",
+            "passwordsMismatch": "كلمتا المرور غير متطابقتين",
+            "ageRequired": "العمر مطلوب",
+            "ageRange": "يجب أن يكون العمر بين 1 و 120",
+            "genderRequired": "الجنس مطلوب",
+            "heightRequired": "الطول مطلوب",
+            "heightRange": "يجب أن يكون الطول بين 30 و 300 سم",
+            "weightRequired": "الوزن مطلوب",
+            "weightRange": "يجب أن يكون الوزن بين 1 و 300 كغ",
+            "bloodTypeRequired": "فصيلة الدم مطلوبة"
+        }
+    },
+    "diagnosis": {
+        "title": "تقييم الأعراض",
+        "subtitle": "صف أعراضك لتحليل مخاطر حمى الضنك بالذكاء الاصطناعي",
+        "inputLabel": "صف أعراضك",
+        "inputPlaceholder": "مثال: أعاني من حمى شديدة وآلام في المفاصل منذ 3 أيام...",
+        "submitButton": "تحليل الأعراض",
+        "analyzing": "جارٍ التحليل...",
+        "resultTitle": "نتيجة التقييم",
+        "riskLevel": "مستوى الخطورة",
+        "confidence": "الثقة",
+        "diagnosis": "التشخيص",
+        "recommendation": "التوصية",
+        "treatment": "العلاج",
+        "newAssessment": "تقييم جديد",
+        "warning": "⚠️ هذا تقييم أولي فقط. يرجى استشارة أخصائي رعاية صحية للحصول على تشخيص دقيق.",
+        "highRiskAlert": "تم اكتشاف خطورة عالية! يرجى طلب الرعاية الطبية الفورية.",
+        "lastDengueCheck": "آخر فحص حمى الضنك",
+        "lastMalariaCheck": "آخر فحص ملاريا",
+        "checkupPlaceholder": "حدد التاريخ (اختياري)",
+        "healthFields": "سجل الفحوصات الصحية",
+        "healthFieldsHint": "تقديم تواريخ الفحوصات الأخيرة يساعد في تحسين دقة التحليل",
+        "checkResult": "نتيجة الفحص",
+        "checkResultPositive": "إيجابي (+)",
+        "checkResultNegative": "سلبي (−)",
+        "checkResultUnknown": "غير معروف",
+        "platelets": "الصفائح الدموية (×10³/µL)",
+        "plateletsPlaceholder": "مثال: 150 (طبيعي: 150–400)",
+        "wbc": "خلايا الدم البيضاء (×10³/µL)",
+        "wbcPlaceholder": "مثال: 6.5 (طبيعي: 4–11)",
+        "hematocrit": "الهيماتوكريت (%)",
+        "hematocritPlaceholder": "مثال: 42 (طبيعي: 37–52)",
+        "checkNotes": "ملاحظات الطبيب / النتائج",
+        "checkNotesPlaceholder": "أي ملاحظات إضافية من الفحص...",
+        "checkDetails": "تفاصيل الفحص",
+        "narrativeTitle": "ملخص التقييم الذكي",
+        "extraDetails": "بم تشعر؟",
+        "extraDetailsPlaceholder": "أضف أي سياق إضافي، مثل مدة الأعراض، تاريخ السفر...",
+        "dengueSymptoms": "أعراض حمى الضنك",
+        "malariaSymptoms": "أعراض الملاريا",
+        "selectSymptoms": "ما هي الأعراض التي تشعر بها؟",
+        "dengueSymptomsList": {
+            "high_fever": "حمى شديدة",
+            "severe_headache": "صداع شديد",
+            "retro_orbital_pain": "ألم خلف العين",
+            "joint_pain": "ألم في المفاصل",
+            "muscle_pain": "ألم عضلي / آلام الجسم",
+            "rash": "طفح جلدي / بقع حمراء",
+            "bleeding": "نزيف / كدمات",
+            "nausea": "غثيان",
+            "vomiting": "قيء"
+        },
+        "malariaSymptomsList": {
+            "high_fever": "حمى شديدة",
+            "chills": "قشعريرة / رعشة",
+            "sweating": "تعرق مفرط",
+            "headache": "صداع",
+            "nausea": "غثيان",
+            "vomiting": "قيء",
+            "muscle_pain": "ألم عضلي"
+        },
+        "risk": {
+            "low": "منخفض",
+            "moderate": "متوسط",
+            "moderate-high": "متوسط-مرتفع",
+            "high": "مرتفع",
+            "unknown": "غير معروف",
+            "unknown-low": "غير معروف-منخفض"
+        }
+    },
+    "history": {
+        "title": "سجل التشخيص",
+        "subtitle": "عرض تقييماتك السابقة واتجاهاتها",
+        "noHistory": "لا يوجد سجل تشخيص بعد. ابدأ بتقييم جديد.",
+        "date": "التاريخ",
+        "riskLevel": "مستوى الخطورة",
+        "confidence": "الثقة",
+        "symptoms": "الأعراض",
+        "viewDetails": "عرض التفاصيل",
+        "filterAll": "الكل",
+        "filterLow": "منخفض",
+        "filterModerate": "متوسط",
+        "filterHigh": "مرتفع",
+        "sortNewest": "الأحدث أولاً",
+        "sortOldest": "الأقدم أولاً",
+        "chartRiskTrend": "اتجاه الخطورة",
+        "chartConfidenceTrend": "اتجاه الثقة",
+        "detailsTitle": "تفاصيل التشخيص",
+        "close": "إغلاق",
+        "goToDiagnosis": "تقييم جديد",
+        "narrativeTitle": "الملخص الذكي"
+    },
+    "common": {
+        "loading": "جارٍ التحميل...",
+        "error": "حدث خطأ ما",
+        "retry": "إعادة المحاولة",
+        "cancel": "إلغاء",
+        "save": "حفظ",
+        "back": "رجوع",
+        "next": "التالي",
+        "language": "اللغة",
+        "english": "English",
+        "arabic": "العربية"
+    },
+    "landing": {
+        "hero": {
+            "title": "احمِ نفسك وعائلتك من حمى الضنك",
+            "subtitle": "تقييم بالذكاء الاصطناعي.",
+            "cta": "سجل الآن",
+            "cta2": "شخص الآن"
+        },
+        "about": {
+            "title": "ما هي حمى الضنك؟",
+            "description": "حمى الضنك هي عدوى فيروسية تنتقل إلى البشر عن طريق لدغات البعوض الحامل للعدوى. الناقل الرئيسي للمرض هو بعوض الزاعجة المصرية."
+        },
+        "types": {
+            "title": "أنواع حمى الضنك",
+            "list": [
+                {
+                    "name": "حمى الضنك (خفيفة)",
+                    "desc": "أعراض تشبه الأنفلونزا، حمى شديدة، آلام في العضلات/المفاصل."
+                },
+                {
+                    "name": "حمى الضنك النزفية",
+                    "desc": "شكل حاد مع نزيف، انخفاض الصفائح الدموية، تسرب البلازما."
+                },
+                {
+                    "name": "متلازمة صدمة الضنك",
+                    "desc": "مرحلة حرجة مع انخفاض خطير في ضغط الدم."
+                }
+            ]
+        },
+        "spread": {
+            "title": "كيف تنتشر",
+            "items": [
+                {
+                    "title": "المياه الراكدة",
+                    "desc": "أرض خصبة لتكاثر البعوض."
+                },
+                {
+                    "title": "ارتفاع درجة الحرارة",
+                    "desc": "يؤدي ارتفاع درجة الحرارة إلى تكاثر البعوض."
+                },
+                {
+                    "title": "لدغات البعوض",
+                    "desc": "ينتقل عن طريق إناث بعوض الزاعجة."
+                }
+            ]
+        },
+        "protection": {
+            "title": "الوقاية والحماية",
+            "items": [
+                "استخدم طارد الحشرات",
+                "ارتدِ ملابس طويلة",
+                "تخلص من المياه الراكدة",
+                "استخدم الناموسيات"
+            ]
+        },
+        "nazaCare": {
+            "title": "كيف يساعدك نازا كير",
+            "description": "يحلل نظامنا المدعوم بالذكاء الاصطناعي أعراضك لتقييم خطر الإصابة بحمى الضنك، ويزودك بتوجيهات وتوصيات فورية."
+        },
+        "stats": {
+            "title": "التأثير العالمي لحمى الضنك",
+            "description": "ارتفعت حالات حمى الضنك بشكل كبير في السنوات الأخيرة. تتبع وامنع الانتشار باستخدام أدواتنا الذكية."
+        },
+        "doctor": {
+            "title": "استشر أطباءنا",
+            "description": "احصل على استشارة طبية متخصصة من الأطباء بسرعة وأمان.",
+            "button": "احجز طبيبًا"
+        },
+        "cta": {
+            "title": "مستعد للاطمئنان على صحتك؟",
+            "button": "سجّل الآن",
+            "button2": "شخص الآن"
+        }
+    }
+}

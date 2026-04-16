@@ -1,0 +1,27 @@
+
+> frontend@0.0.0 lint
+> eslint .
+
+
+C:\Users\Mr USER\Desktop\Graduation Project\NazaCare\frontend\src\components\ui\badge.tsx
+  38:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\Mr USER\Desktop\Graduation Project\NazaCare\frontend\src\components\ui\button.tsx
+  79:18  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\Mr USER\Desktop\Graduation Project\NazaCare\frontend\src\pages\Landing.tsx
+  63:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  81:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Mr USER\Desktop\Graduation Project\NazaCare\frontend\src\pages\Register.tsx
+  116:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Mr USER\Desktop\Graduation Project\NazaCare\frontend\src\stores\languageStore.ts
+  44:70  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  46:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:29  error  '_options' is defined but never used      @typescript-eslint/no-unused-vars
+  60:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 10 problems (10 errors, 0 warnings)
+
