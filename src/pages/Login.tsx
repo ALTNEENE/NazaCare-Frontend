@@ -58,7 +58,14 @@ export function LoginPage() {
         try {
             await login(data.email, data.password, data.rememberMe);
             addToast({ type: "success", message: "Welcome back!" });
-            navigate(from, { replace: true });
+            
+            // Check if the newly logged-in user is an admin
+            const loggedInUser = useAuthStore.getState().user;
+            if (loggedInUser?.role === "admin") {
+                navigate("/admin", { replace: true });
+            } else {
+                navigate(from, { replace: true });
+            }
         } catch {
             addToast({ type: "error", message: apiError || "Login failed." });
         }

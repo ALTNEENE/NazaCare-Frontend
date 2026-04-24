@@ -39,6 +39,7 @@ export const stripMarkdown = (text: string) => {
 const DENGUE_SYMPTOMS = [
     "حمى شديدة",
     "صداع حاد",
+    "صداع",
     "ألم خلف العين",
     "ألم في المفاصل",
     "ألم في العضلات",
@@ -317,12 +318,18 @@ export function DiagnosisPage() {
 
         console.log("Full Text:", fullText)
         try {
+            const labData = {
+                platelets: dengueDetails.platelets || undefined,
+                wbc: dengueDetails.wbc || undefined,
+                result: dengueDetails.result || undefined,
+            };
             await submitDiagnosis(
                 fullText,
                 language,
                 lastDengueCheck || null,
                 lastMalariaCheck || null,
-                selectedKeys
+                selectedKeys,
+                labData
             );
         } catch {
             addToast({ type: "error", message: t("common.error") });

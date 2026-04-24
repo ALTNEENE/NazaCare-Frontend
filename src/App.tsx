@@ -10,6 +10,13 @@ import { HistoryPage } from "@/pages/History";
 import { HealthProfilePage } from "@/pages/HealthProfile";
 import Landing from '@/pages/Landing';
 import { LandingLayout } from "./layouts/LandingLayout";
+import { AdminProtectedRoute } from "@/components/AdminProtectedRoute";
+import { AdminLayout } from "@/layouts/AdminLayout";
+import { AdminDashboard } from "@/pages/admin/AdminDashboard";
+import { UsersAdmin } from "@/pages/admin/UsersAdmin";
+import { CasesAdmin } from "@/pages/admin/CasesAdmin";
+import { DoctorsAdmin } from "@/pages/admin/DoctorsAdmin";
+import { RulesAdmin } from "@/pages/admin/RulesAdmin";
 
 export default function App() {
   return (
@@ -37,6 +44,21 @@ export default function App() {
           <Route path="/health-profile" element={<HealthProfilePage />} />
           <Route path="/diagnosis" element={<DiagnosisPage />} />
           <Route path="/history" element={<HistoryPage />} />
+        </Route>
+
+        {/* Admin routes */}
+        <Route
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout />
+            </AdminProtectedRoute>
+          }
+        >
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<UsersAdmin />} />
+          <Route path="/admin/cases" element={<CasesAdmin />} />
+          <Route path="/admin/doctors" element={<DoctorsAdmin />} />
+          <Route path="/admin/rules" element={<RulesAdmin />} />
         </Route>
 
         <Route element={<LandingLayout />}>

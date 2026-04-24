@@ -3,7 +3,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useTranslation } from "@/stores/languageStore";
 import { useToastStore } from "@/stores/toastStore";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { Heart, Stethoscope, History, LogOut, Menu, X, Home, UserCircle } from "lucide-react";
+import { Heart, Stethoscope, History, LogOut, Menu, X, Home, UserCircle, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { getReminderData } from "@/pages/HealthProfile";
@@ -50,6 +50,12 @@ export function DashboardLayout() {
         { to: "/history", label: t("nav.history"), icon: History },
         { to: "/health-profile", label: language === "ar" ? "الملف الصحي" : "Health Profile", icon: UserCircle },
     ];
+
+    if (user?.role === "admin") {
+        navLinks.push({ to: "/admin", label: "Admin Panel", icon: LayoutDashboard });
+    }
+
+    console.log(user)
 
     return (
         <div className="min-h-screen bg-surface-secondary flex flex-col">

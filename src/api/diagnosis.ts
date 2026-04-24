@@ -6,6 +6,7 @@ interface DiagnosisPayload {
     lastDengueCheck?: string | null;
     lastMalariaCheck?: string | null;
     selectedSymptoms?: string[];
+    labData?: Record<string, any> | null;
 }
 
 export const diagnosisApi = {

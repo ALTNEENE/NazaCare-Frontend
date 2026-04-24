@@ -11,6 +11,7 @@ interface User {
     height?: number;
     weight?: number;
     bloodType?: string;
+    role?: string;
 }
 
 interface AuthState {

@@ -2,7 +2,8 @@ import axios from "axios";
 
 /** Axios instance with base URL and JWT interceptor */
 const apiClient = axios.create({
-    baseURL: "https://api.nazacare.cloud/api",
+    // baseURL: "https://api.nazacare.cloud/api",
+    baseURL: "http://localhost:3000/api",
     headers: {
         "Content-Type": "application/json",
     },
