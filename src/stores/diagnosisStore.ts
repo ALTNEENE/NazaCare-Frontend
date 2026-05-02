@@ -5,6 +5,9 @@ export interface DiagnosisResult {
     id?: string;
     risk: string;
     confidence: number;
+    predictedDisease?: string;
+    diseaseProbabilities?: Record<string, number>;
+    mlModelBreakdown?: Record<string, unknown>;
     message: {
         en: string;
         ar: string;
@@ -39,7 +42,14 @@ interface DiagnosisState {
         lastDengueCheck?: string | null,
         lastMalariaCheck?: string | null,
         selectedSymptoms?: string[],
-        labData?: Record<string, any> | null
+        labData?: Record<string, any> | null,
+        diseaseData?: {
+            fever: number;
+            headache: number;
+            cough: number;
+            fatigue: number;
+            body_pain: number;
+        } | null
     ) => Promise<void>;
     fetchHistory: () => Promise<void>;
     clearResult: () => void;
@@ -53,7 +63,7 @@ export const useDiagnosisStore = create<DiagnosisState>((set) => ({
     isHistoryLoading: false,
     error: null,
 
-    submitDiagnosis: async (symptoms, language, lastDengueCheck, lastMalariaCheck, selectedSymptoms, labData) => {
+    submitDiagnosis: async (symptoms, language, lastDengueCheck, lastMalariaCheck, selectedSymptoms, labData, diseaseData) => {
         set({ isLoading: true, error: null, currentResult: null });
         try {
             const response = await diagnosisApi.submit({
@@ -62,7 +72,8 @@ export const useDiagnosisStore = create<DiagnosisState>((set) => ({
                 lastDengueCheck: lastDengueCheck || null,
                 lastMalariaCheck: lastMalariaCheck || null,
                 selectedSymptoms: selectedSymptoms || [],
-                labData: labData || null
+                labData: labData || null,
+                diseaseData: diseaseData || null
             });
             const result: DiagnosisResult = response.data;
             set({ currentResult: result, isLoading: false });

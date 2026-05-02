@@ -18,6 +18,7 @@ export default defineConfig({
   preview: {
     host: true,
     port: 3003,
-    allowedHosts: ['nazacare.cloud', 'www.nazacare.cloud'],
+    // allowedHosts: ['localhost', '[IP_ADDRESS]'],
+    // allowedHosts: ['nazacare.cloud', 'www.nazacare.cloud'],
   },
 })

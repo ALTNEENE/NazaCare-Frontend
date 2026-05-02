@@ -16,7 +16,6 @@ import {
     Share,
     Printer,
     CalendarDays,
-    Bug,
     Activity,
     ChevronDown,
     ChevronUp,
@@ -36,31 +35,22 @@ export const stripMarkdown = (text: string) => {
 };
 
 // ─── Symptom definitions ───────────────────────────────────────
-const DENGUE_SYMPTOMS = [
-    "حمى شديدة",
-    "صداع حاد",
-    "صداع",
-    "ألم خلف العين",
-    "ألم في المفاصل",
-    "ألم في العضلات",
-    "طفح جلدي",
-    "نزيف",
-    "غثيان",
-    "تقيؤ",
+const SYMPTOM_OPTIONS = [
+    "high_fever",
+    "severe_headache",
+    "headache",
+    "retro_orbital_pain",
+    "joint_pain",
+    "muscle_pain",
+    "rash",
+    "bleeding",
+    "nausea",
+    "vomiting",
+    "chills",
+    "sweating",
 ] as const;
 
-const MALARIA_SYMPTOMS = [
-    "حمى عالية",
-    "برد",
-    "تعرق",
-    "صداع",
-    "غثيان",
-    "تقيؤ",
-    "ألم في العضلات",
-] as const;
-
-type DengueSymptom = (typeof DENGUE_SYMPTOMS)[number];
-type MalariaSymptom = (typeof MALARIA_SYMPTOMS)[number];
+type SymptomKey = (typeof SYMPTOM_OPTIONS)[number];
 
 // Maps symptom keys to natural-language phrases sent to the NLP backend
 const SYMPTOM_PHRASES: Record<string, string> = {
@@ -77,6 +67,14 @@ const SYMPTOM_PHRASES: Record<string, string> = {
     sweating: "excessive sweating",
     headache: "headache",
 };
+
+const FEVER_MIN_F = 98.6;
+const FEVER_MAX_F = 106;
+
+function feverPercentToFahrenheit(percent: number) {
+    const clamped = Math.max(0, Math.min(100, percent));
+    return Math.round((FEVER_MIN_F + (clamped / 100) * (FEVER_MAX_F - FEVER_MIN_F)) * 10) / 10;
+}
 
 // ─── CheckDetailsPanel component ───────────────────────────────
 type CheckResult = "positive" | "negative" | "unknown" | "";
@@ -245,14 +243,10 @@ export function DiagnosisPage() {
     const [lastDengueCheck, setLastDengueCheck] = useState("");
     const [lastMalariaCheck, setLastMalariaCheck] = useState("");
     const [isDoctorModalOpen, setIsDoctorModalOpen] = useState(false);
-    const [dengueChecked, setDengueChecked] = useState<Record<DengueSymptom, boolean>>(
-        Object.fromEntries(DENGUE_SYMPTOMS.map((s) => [s, false])) as Record<DengueSymptom, boolean>
+    const [symptomChecked, setSymptomChecked] = useState<Record<SymptomKey, boolean>>(
+        Object.fromEntries(SYMPTOM_OPTIONS.map((s) => [s, false])) as Record<SymptomKey, boolean>
     );
-    const [malariaChecked, setMalariaChecked] = useState<Record<MalariaSymptom, boolean>>(
-        Object.fromEntries(MALARIA_SYMPTOMS.map((s) => [s, false])) as Record<MalariaSymptom, boolean>
-    );
-    const [isDengueOpen, setIsDengueOpen] = useState(true);
-    const [isMalariaOpen, setIsMalariaOpen] = useState(true);
+    const [isSymptomsOpen, setIsSymptomsOpen] = useState(true);
 
     // ── Checkup detail state ──────────────────────────────────
     const emptyDetails = (): CheckDetails => ({
@@ -261,43 +255,48 @@ export function DiagnosisPage() {
     const [dengueDetails, setDengueDetails] = useState<CheckDetails>(emptyDetails());
     const [malariaDetails, setMalariaDetails] = useState<CheckDetails>(emptyDetails());
 
+    // ── ML Disease Continuous Inputs ──────────────────────────
+    const [diseaseData, setDiseaseData] = useState({
+        fever: 0,
+        headache: 0,
+        cough: 0,
+        fatigue: 0,
+        body_pain: 0
+    });
+
     // Build the combined symptoms string from checkboxes + textarea
     const buildSymptomsText = () => {
-        const dengueSelected = DENGUE_SYMPTOMS.filter((s) => dengueChecked[s]).map(
+        const selectedSymptoms = SYMPTOM_OPTIONS.filter((s) => symptomChecked[s]).map(
             (s) => SYMPTOM_PHRASES[s] || s.replace(/_/g, " ")
         );
-        const malariaSelected = MALARIA_SYMPTOMS.filter((s) => malariaChecked[s]).map(
-            (s) => SYMPTOM_PHRASES[s] || s.replace(/_/g, " ")
-        );
-        // Deduplicate (high_fever may appear in both lists)
-        const allSymptoms = [...new Set([...dengueSelected, ...malariaSelected])];
-        let text = allSymptoms.join(", ");
-        if (extraDetails.trim()) {
-            text = text ? `${text}. ${extraDetails.trim()}` : extraDetails.trim();
-        }
-        return text;
+        return selectedSymptoms.join(", ");
     };
 
-    const hasAnySymptom = () => {
+    const hasSliderInput = () => {
         return (
-            DENGUE_SYMPTOMS.some((s) => dengueChecked[s]) ||
-            MALARIA_SYMPTOMS.some((s) => malariaChecked[s]) ||
-            extraDetails.trim().length > 0
+            feverPercentToFahrenheit(diseaseData.fever) > 99 ||
+            diseaseData.headache > 0 ||
+            diseaseData.cough > 0 ||
+            diseaseData.fatigue > 0 ||
+            diseaseData.body_pain > 0
         );
     };
 
     console.log("currentResult", currentResult);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!hasAnySymptom()) return;
+        if (!hasSliderInput()) {
+            addToast({
+                type: "error",
+                message: isRTL
+                    ? "يرجى رفع شريط الحمى فوق الطبيعي أو إدخال شدة عرض واحد على الأقل"
+                    : "Please raise fever above normal or set at least one severity slider before analysis",
+            });
+            return;
+        }
         const symptomsText = buildSymptomsText();
         // Collect the raw symptom keys from checked checkboxes (language-independent)
-        const selectedKeys = [
-            ...new Set([
-                ...DENGUE_SYMPTOMS.filter((s) => dengueChecked[s]),
-                ...MALARIA_SYMPTOMS.filter((s) => malariaChecked[s]),
-            ]),
-        ] as string[];
+        const selectedKeys = SYMPTOM_OPTIONS.filter((s) => symptomChecked[s]) as string[];
 
         // Build supplemental context from checkup details for backend
         const buildCheckContext = (label: string, date: string, d: ReturnType<typeof emptyDetails>) => {
@@ -315,6 +314,10 @@ export function DiagnosisPage() {
         const checkupContext = [dengueCtx, malariaCtx].filter(Boolean).join(". ");
         const fullText = [symptomsText, checkupContext, extraDetails.trim()]
             .filter(Boolean).join(". ");
+        const modelDiseaseData = {
+            ...diseaseData,
+            fever: feverPercentToFahrenheit(diseaseData.fever),
+        };
 
         console.log("Full Text:", fullText)
         try {
@@ -329,7 +332,8 @@ export function DiagnosisPage() {
                 lastDengueCheck || null,
                 lastMalariaCheck || null,
                 selectedKeys,
-                labData
+                labData,
+                modelDiseaseData
             );
         } catch {
             addToast({ type: "error", message: t("common.error") });
@@ -343,12 +347,10 @@ export function DiagnosisPage() {
         setLastMalariaCheck("");
         setDengueDetails(emptyDetails());
         setMalariaDetails(emptyDetails());
-        setDengueChecked(
-            Object.fromEntries(DENGUE_SYMPTOMS.map((s) => [s, false])) as Record<DengueSymptom, boolean>
+        setSymptomChecked(
+            Object.fromEntries(SYMPTOM_OPTIONS.map((s) => [s, false])) as Record<SymptomKey, boolean>
         );
-        setMalariaChecked(
-            Object.fromEntries(MALARIA_SYMPTOMS.map((s) => [s, false])) as Record<MalariaSymptom, boolean>
-        );
+        setDiseaseData({ fever: 0, headache: 0, cough: 0, fatigue: 0, body_pain: 0 });
     };
 
     const buildReportText = () => {
@@ -357,6 +359,7 @@ export function DiagnosisPage() {
             `NazaCare — ${t("diagnosis.resultTitle")}`,
             `${"-".repeat(40)}`,
             `${t("diagnosis.riskLevel")}: ${currentResult.risk}`,
+            ...(currentResult.predictedDisease ? [`Predicted Condition: ${currentResult.predictedDisease}`] : []),
             `${t("diagnosis.diagnosis")}: ${resultMessage}`,
             `${t("diagnosis.treatment")}: ${resultTreatment}`,
         ];
@@ -421,7 +424,6 @@ export function DiagnosisPage() {
         symptoms,
         checked,
         onToggle,
-        listKey,
         isOpen,
         onToggleOpen,
         accentColor,
@@ -431,7 +433,6 @@ export function DiagnosisPage() {
         symptoms: readonly string[];
         checked: Record<string, boolean>;
         onToggle: (key: string) => void;
-        listKey: string;
         isOpen: boolean;
         onToggleOpen: () => void;
         accentColor: string;
@@ -465,8 +466,9 @@ export function DiagnosisPage() {
                 {isOpen && (
                     <div className="px-4 pb-4 pt-2 bg-slate-50 grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {symptoms.map((symptom) => {
-                            const labelObj = t(`diagnosis.${listKey}`) as Record<string, string>;
-                            const label = labelObj?.[symptom] || symptom.replace(/_/g, " ");
+                            const dengueLabels = t("diagnosis.dengueSymptomsList") as Record<string, string>;
+                            const malariaLabels = t("diagnosis.malariaSymptomsList") as Record<string, string>;
+                            const label = dengueLabels?.[symptom] || malariaLabels?.[symptom] || symptom.replace(/_/g, " ");
                             return (
                                 <label
                                     key={symptom}
@@ -492,6 +494,12 @@ export function DiagnosisPage() {
             </div>
         );
     };
+
+    const severitySliderClass = cn(
+        "w-full h-2 cursor-pointer appearance-none rounded-full bg-gradient-to-r from-blue-500 via-amber-400 to-red-500",
+        "[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:bg-slate-900 [&::-webkit-slider-thumb]:shadow-md",
+        "[&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:bg-slate-900 [&::-moz-range-thumb]:shadow-md"
+    );
 
     return (
         <div className="space-y-6 animate-fade-in">
@@ -585,39 +593,83 @@ export function DiagnosisPage() {
                                 </div>
                             </div>
                             {/* Section label */}
-                            <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                            <div className="flex items-center gap-2 text-sm font-semibold text-slate-700 mt-6">
                                 <Activity className="h-4 w-4 text-primary-500" />
                                 {t("diagnosis.selectSymptoms")}
                             </div>
 
-                            {/* Dengue Symptom Checkboxes */}
-                            <SymptomCheckboxGroup
-                                title={t("diagnosis.dengueSymptoms") as string}
-                                icon={<Bug className="h-4 w-4 text-orange-500" />}
-                                symptoms={DENGUE_SYMPTOMS}
-                                checked={dengueChecked}
-                                onToggle={(key) =>
-                                    setDengueChecked((prev) => ({ ...prev, [key]: !prev[key as DengueSymptom] }))
-                                }
-                                listKey="dengueSymptomsList"
-                                isOpen={isDengueOpen}
-                                onToggleOpen={() => setIsDengueOpen((v) => !v)}
-                                accentColor="border-orange-300"
-                            />
+                            {/* Continuous Disease Symptoms */}
+                            <div className="rounded-xl border border-slate-200 bg-white p-4 space-y-4">
+                                <h3 className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                    <Sparkles className="h-4 w-4 text-primary-500" />
+                                    {isRTL ? "مستوى الأعراض العام - مطلوب" : "General Severity - Required"}
+                                </h3>
+                                <p className="text-xs text-slate-500">
+                                    {isRTL
+                                        ? "ارفع شريط الحمى فوق الطبيعي أو حرك شدة عرض واحد على الأقل حتى يتمكن نموذج التنبؤ من تحديد المرض المحتمل."
+                                        : "Raise fever above normal or set at least one symptom severity so the prediction model can identify the likely disease."}
+                                </p>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-medium text-slate-600 flex justify-between">
+                                            <span>{isRTL ? "نسبة الحمى" : "Fever Severity"}</span>
+                                            <span className="text-primary-600 font-bold">{diseaseData.fever}%</span>
+                                        </label>
+                                        <input type="range" min="0" max="100" step="1" value={diseaseData.fever}
+                                            onChange={(e) => setDiseaseData({ ...diseaseData, fever: parseInt(e.target.value) })}
+                                            className={severitySliderClass} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-medium text-slate-600 flex justify-between">
+                                            <span>{isRTL ? "حدة الصداع" : "Headache Severity"}</span>
+                                            <span className="text-primary-600 font-bold">{diseaseData.headache}</span>
+                                        </label>
+                                        <input type="range" min="0" max="10" step="1" value={diseaseData.headache}
+                                            onChange={(e) => setDiseaseData({ ...diseaseData, headache: parseInt(e.target.value) })}
+                                            className={severitySliderClass} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-medium text-slate-600 flex justify-between">
+                                            <span>{isRTL ? "شدة السعال" : "Cough Severity"}</span>
+                                            <span className="text-primary-600 font-bold">{diseaseData.cough}</span>
+                                        </label>
+                                        <input type="range" min="0" max="10" step="1" value={diseaseData.cough}
+                                            onChange={(e) => setDiseaseData({ ...diseaseData, cough: parseInt(e.target.value) })}
+                                            className={severitySliderClass} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-medium text-slate-600 flex justify-between">
+                                            <span>{isRTL ? "مستوى الإرهاق" : "Fatigue Level"}</span>
+                                            <span className="text-primary-600 font-bold">{diseaseData.fatigue}</span>
+                                        </label>
+                                        <input type="range" min="0" max="10" step="1" value={diseaseData.fatigue}
+                                            onChange={(e) => setDiseaseData({ ...diseaseData, fatigue: parseInt(e.target.value) })}
+                                            className={severitySliderClass} />
+                                    </div>
+                                    <div className="space-y-1 sm:col-span-2">
+                                        <label className="text-xs font-medium text-slate-600 flex justify-between">
+                                            <span>{isRTL ? "ألم في العضلات / الجسم" : "Body / Muscle Pain"}</span>
+                                            <span className="text-primary-600 font-bold">{diseaseData.body_pain}</span>
+                                        </label>
+                                        <input type="range" min="0" max="10" step="1" value={diseaseData.body_pain}
+                                            onChange={(e) => setDiseaseData({ ...diseaseData, body_pain: parseInt(e.target.value) })}
+                                            className={severitySliderClass} />
+                                    </div>
+                                </div>
+                            </div>
 
-                            {/* Malaria Symptom Checkboxes */}
+                            {/* Additional symptom checkboxes */}
                             <SymptomCheckboxGroup
-                                title={t("diagnosis.malariaSymptoms") as string}
-                                icon={<Activity className="h-4 w-4 text-teal-500" />}
-                                symptoms={MALARIA_SYMPTOMS}
-                                checked={malariaChecked}
+                                title={isRTL ? "أعراض إضافية" : "Additional Symptoms"}
+                                icon={<Activity className="h-4 w-4 text-primary-500" />}
+                                symptoms={SYMPTOM_OPTIONS}
+                                checked={symptomChecked}
                                 onToggle={(key) =>
-                                    setMalariaChecked((prev) => ({ ...prev, [key]: !prev[key as MalariaSymptom] }))
+                                    setSymptomChecked((prev) => ({ ...prev, [key]: !prev[key as SymptomKey] }))
                                 }
-                                listKey="malariaSymptomsList"
-                                isOpen={isMalariaOpen}
-                                onToggleOpen={() => setIsMalariaOpen((v) => !v)}
-                                accentColor="border-teal-300"
+                                isOpen={isSymptomsOpen}
+                                onToggleOpen={() => setIsSymptomsOpen((v) => !v)}
+                                accentColor="border-primary-300"
                             />
 
                             {/* Extra Details Textarea */}
@@ -648,7 +700,7 @@ export function DiagnosisPage() {
                                 className="w-full"
                                 size="lg"
                                 isLoading={isLoading}
-                                disabled={!hasAnySymptom()}
+                                disabled={!hasSliderInput()}
                             >
                                 {isLoading ? (
                                     <>{t("diagnosis.analyzing")}</>
@@ -729,8 +781,8 @@ export function DiagnosisPage() {
                             {/* Risk level + Confidence */}
                             <div className="flex flex-col sm:flex-row items-center gap-4 rounded-xl bg-slate-50 p-5">
                                 {/* Risk badge */}
-                                <div className="flex flex-col items-center gap-2 flex-1">
-                                    <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                <div className="flex flex-col items-center justify-center gap-2 flex-1">
+                                    <span className="text-xs font-medium text-slate-500 uppercase tracking-wider text-center">
                                         {t("diagnosis.riskLevel")}
                                     </span>
                                     <RiskBadge risk={currentResult.risk} size="lg" />
@@ -739,6 +791,24 @@ export function DiagnosisPage() {
                                 {/* Divider */}
                                 <div className="hidden sm:block w-px h-16 bg-slate-200" />
                                 <div className="block sm:hidden w-full h-px bg-slate-200" />
+
+                                {/* Predicted Disease */}
+                                {currentResult.predictedDisease && (
+                                    <>
+                                        <div className="flex flex-col items-center justify-center gap-2 flex-1">
+                                            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider text-center">
+                                                Predicted Condition
+                                            </span>
+                                            <div className="text-lg font-bold text-slate-800 text-center">
+                                                {currentResult.predictedDisease}
+                                            </div>
+                                        </div>
+
+                                        {/* Divider */}
+                                        <div className="hidden sm:block w-px h-16 bg-slate-200" />
+                                        <div className="block sm:hidden w-full h-px bg-slate-200" />
+                                    </>
+                                )}
 
                                 {/* Confidence gauge */}
                                 <div className="flex flex-col items-center gap-2 flex-1">

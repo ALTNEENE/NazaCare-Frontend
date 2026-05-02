@@ -146,6 +146,8 @@ export function HistoryPage() {
             selectedDiagnosis?.narrativeResponse?.en ||
             "");
 
+    console.log("selectedDiagnosis", selectedDiagnosis?.diseaseProbabilities);
+
     return (
         <div className="space-y-6 animate-fade-in">
             {/* Page header */}
@@ -335,11 +337,48 @@ export function HistoryPage() {
                                 </span>
                             </div>
 
-                            {/* Risk + Confidence */}
-                            <div className="grid grid-cols-1 gap-4">
-                                <div className="rounded-xl bg-slate-50 p-4 text-center">
-                                    <p className="text-xs text-slate-500 mb-2">{t("history.riskLevel")}</p>
-                                    <RiskBadge risk={selectedDiagnosis.risk} size="md" />
+                            {/* Risk level + Confidence */}
+                            <div className="flex flex-col sm:flex-row items-center gap-4 rounded-xl bg-slate-50 p-5">
+                                {/* Risk badge */}
+                                <div className="flex flex-col items-center justify-center gap-2 flex-1">
+                                    <p className="text-xs text-slate-500">{t("history.riskLevel")}</p>
+                                    <RiskBadge risk={selectedDiagnosis.risk} size="lg" />
+                                </div>
+                                {/* Confidence ring */}
+                                <div className="flex flex-col items-center justify-center gap-2 flex-1 border-t sm:border-t-0 sm:border-l border-slate-200 pt-4 sm:pt-0">
+                                    <div className="relative h-16 w-16">
+                                        <svg viewBox="0 0 36 36" className="h-full w-full">
+                                            <path
+                                                className="fill-none stroke-slate-200"
+                                                strokeWidth="3"
+                                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            />
+                                            <circle
+                                                cx="18" cy="18" r="15.9155"
+                                                fill="none"
+                                                strokeWidth="3"
+                                                strokeDasharray={`${Math.round(selectedDiagnosis.confidence * 100)} ${100 - Math.round(selectedDiagnosis.confidence * 100)}`}
+                                                strokeLinecap="round"
+                                                className={cn(
+                                                    selectedDiagnosis.risk?.toLowerCase() === "high" ? "stroke-red-500" :
+                                                        selectedDiagnosis.risk?.toLowerCase() === "moderate" ? "stroke-amber-500" :
+                                                            "stroke-green-500"
+                                                )}
+                                                style={{ transition: 'stroke-dasharray 0.6s ease' }}
+                                            />
+                                        </svg>
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                            <span className={cn(
+                                                "text-xs font-bold",
+                                                selectedDiagnosis.risk?.toLowerCase() === "high" ? "text-red-700" :
+                                                    selectedDiagnosis.risk?.toLowerCase() === "moderate" ? "text-amber-700" :
+                                                        "text-green-700"
+                                            )}>
+                                                {Math.round(selectedDiagnosis.confidence * 100)}%
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-slate-500 text-center">{t("history.confidence") || "Confidence"}</p>
                                 </div>
                             </div>
 

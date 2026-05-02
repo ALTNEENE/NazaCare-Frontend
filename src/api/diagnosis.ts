@@ -7,6 +7,13 @@ interface DiagnosisPayload {
     lastMalariaCheck?: string | null;
     selectedSymptoms?: string[];
     labData?: Record<string, any> | null;
+    diseaseData?: {
+        fever: number;
+        headache: number;
+        cough: number;
+        fatigue: number;
+        body_pain: number;
+    } | null;
 }
 
 export const diagnosisApi = {
